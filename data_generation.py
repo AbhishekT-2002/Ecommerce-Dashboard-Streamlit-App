@@ -34,7 +34,8 @@ PRODUCTS = {
 COUPON_CODES = ['SAVE10', 'SPRING20', 'SUMMER15', 'FLASH25', 'NONE']
 PAYMENT_METHODS = ['Credit Card', 'PayPal', 'Debit Card', 'Bank Transfer']
 SHIPPING_METHODS = ['Standard', 'Express', 'Next Day', 'International']
-NUM_RECORDS = 10000
+
+NUM_RECORDS = 100000
 
 def generate_synthetic_data(num_records=NUM_RECORDS):
     """Generate synthetic e-commerce transaction data."""
