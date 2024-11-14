@@ -8,6 +8,7 @@ This project generates synthetic e-commerce transaction data and visualizes it t
 - [Usage](#usage)
 - [Data Generation](#data-generation)
 - [Dashboard](#dashboard)
+- [Running Tests](#running-tests)
 - [Features](#features)
 - [Contributing](#contributing)
 - [License](#license)
@@ -42,7 +43,7 @@ pip install -r requirements.txt
 ### Clone the Repository
 ```bash
 git clone https://github.com/AbhishekT-2002/Ecommerce-Dashboard-Streamlit-App
-cd https://github.com/AbhishekT-2002/Ecommerce-Dashboard-Streamlit-App
+cd Ecommerce-Dashboard-Streamlit-App
 ```
 
 ## Usage
@@ -76,13 +77,27 @@ Use the various filters and options to visualise and analyze the data for inform
 - Product name
 - Payment method
 
-
 ### 5. Cache
 This streamlit app supports caching of data to optimize performance. The cache is stored in the `dashboard_cache` directory. in order to clear the cache you can click the `clear cache` button on the sidebar.
 
 ### 6.  Demo Video
 Still not sure how to use it? check out this demo video on youtube here:
 [Demo Video](https://www.youtube.com/watch?v=LrlCw677w5g)
+
+## Running Tests
+To run the tests, you need to have `pytest` installed. You can install it using `pip` (You don't have to install pytest if you used `pip install -r requirements.txt`):
+
+```bash
+pip install pytest
+```
+
+Then, you can run the tests using the following command:
+
+```bash
+pytest tests/
+```
+
+This will execute all the test cases in the `tests` directory and provide you with a summary of the test results.
 
 ## Data Generation
 The synthetic data includes the following fields:
