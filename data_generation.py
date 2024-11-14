@@ -3,6 +3,7 @@ import numpy as np
 from faker import Faker
 import random
 from datetime import datetime, timedelta
+import time  # Import time module to track the execution time
 
 # Set random seed for reproducibility
 np.random.seed(42)
@@ -33,7 +34,7 @@ PRODUCTS = {
 COUPON_CODES = ['SAVE10', 'SPRING20', 'SUMMER15', 'FLASH25', 'NONE']
 PAYMENT_METHODS = ['Credit Card', 'PayPal', 'Debit Card', 'Bank Transfer']
 SHIPPING_METHODS = ['Standard', 'Express', 'Next Day', 'International']
-NUM_RECORDS = 100000
+NUM_RECORDS = 10000
 
 def generate_synthetic_data(num_records=NUM_RECORDS):
     """Generate synthetic e-commerce transaction data."""
@@ -89,6 +90,17 @@ def save_data(df, filename='ecommerce_data.csv'):
     print(f"Data saved to {filename}")
 
 if __name__ == "__main__":
+    start_time = time.time()  # Start time tracking
+    
     # Generate and save synthetic data
     df = generate_synthetic_data()
+    
+    # Measure the time taken
+    end_time = time.time()  # End time tracking
+    time_taken = round(end_time - start_time, 2)
+    
+    # Save data
     save_data(df)
+    
+    # Print the number of records and time taken with commas
+    print(f"Created {NUM_RECORDS:,} rows of data in {time_taken} seconds.")
