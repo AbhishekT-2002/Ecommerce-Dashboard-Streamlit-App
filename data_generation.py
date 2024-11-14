@@ -1,9 +1,9 @@
-import pandas as pd
-import numpy as np
 from faker import Faker
-import random
 from datetime import datetime, timedelta
-import time  # Import time module to track the execution time
+import numpy as np
+import pandas as pd
+import random
+from tqdm import tqdm  # Import tqdm for progress bar
 
 # Set random seed for reproducibility
 np.random.seed(42)
@@ -35,32 +35,26 @@ COUPON_CODES = ['SAVE10', 'SPRING20', 'SUMMER15', 'FLASH25', 'NONE']
 PAYMENT_METHODS = ['Credit Card', 'PayPal', 'Debit Card', 'Bank Transfer']
 SHIPPING_METHODS = ['Standard', 'Express', 'Next Day', 'International']
 
-NUM_RECORDS = 100000
+NUM_RECORDS = 50000
 
 def generate_synthetic_data(num_records=NUM_RECORDS):
     """Generate synthetic e-commerce transaction data."""
     data = []
     start_date = datetime.now() - timedelta(days=365)
     
-    for i in range(num_records):
+    for i in tqdm(range(num_records), desc="Generating data"):
+        transaction_date = start_date + timedelta(days=random.randint(0, 365))
         category = random.choice(list(PRODUCTS.keys()))
         product = random.choice(list(PRODUCTS[category].keys()))
-        product_info = PRODUCTS[category][product]
-        
-        base_price = round(random.uniform(product_info['min_price'], product_info['max_price']), 2)
-        cost = round(base_price * product_info['cost_multiplier'], 2)
-        coupon = random.choice(COUPON_CODES)
-        discount = round(base_price * (0.25 if coupon != 'NONE' else 0), 2)
+        base_price = round(random.uniform(PRODUCTS[category][product]['min_price'], PRODUCTS[category][product]['max_price']), 2)
+        cost = round(base_price * PRODUCTS[category][product]['cost_multiplier'], 2)
+        discount = round(random.uniform(0, 0.3) * base_price, 2)
         total_price = round(base_price - discount, 2)
-        
-        days_offset = random.randint(0, 364)
-        transaction_date = start_date + timedelta(days=days_offset)
-        
-        is_suspicious = random.random() < 0.05
-        if is_suspicious:
-            transaction_date = transaction_date.replace(hour=random.randint(1, 4))
-            if random.random() < 0.5:
-                total_price = round(total_price * random.uniform(5, 10), 2)
+        coupon = random.choice(COUPON_CODES)
+        if coupon != 'NONE':
+            total_price = round(total_price * random.uniform(0.9, 0.95), 2)
+        if random.random() < 0.5:
+            total_price = round(total_price * random.uniform(5, 10), 2)
         
         data.append({
             'order_id': f'ORD-{i+1:06d}',
@@ -91,17 +85,9 @@ def save_data(df, filename='ecommerce_data.csv'):
     print(f"Data saved to {filename}")
 
 if __name__ == "__main__":
-    start_time = time.time()  # Start time tracking
-    
-    # Generate and save synthetic data
-    df = generate_synthetic_data()
-    
-    # Measure the time taken
-    end_time = time.time()  # End time tracking
-    time_taken = round(end_time - start_time, 2)
-    
-    # Save data
+    import time
+    start_time = time.time()
+    df = generate_synthetic_data(num_records=NUM_RECORDS)  # Adjust the number of records as needed
     save_data(df)
-    
-    # Print the number of records and time taken with commas
-    print(f"Created {NUM_RECORDS:,} rows of data in {time_taken} seconds.")
+    end_time = time.time()
+    print(f"Data generation completed in {end_time - start_time:.2f} seconds")
