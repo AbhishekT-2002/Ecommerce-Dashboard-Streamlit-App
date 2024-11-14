@@ -16,6 +16,8 @@ env.bak/
 
 # macOS files
 .DS_Store
+# streamlit_cache
+dashboard_cache/
 
 # PyInstaller
 # Usually these files are generated if you package a Python app
